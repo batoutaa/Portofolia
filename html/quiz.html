@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Capitales</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .quiz-container {
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #333;
+        }
+        .question-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .question-container.active {
+            display: flex;
+        }
+        .answer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .answer {
+            width: 45%;
+            padding: 15px;
+            margin: 10px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .answer.red { background-color: #e74c3c; }
+        .answer.blue { background-color: #3498db; }
+        .answer.green { background-color: #2ecc71; }
+        .answer.yellow { background-color: #f1c40f; }
+        .answer.correct { background-color: #2ecc71; } /* Vert pour correct */
+        .answer.incorrect { background-color: #e74c3c; } /* Rouge pour incorrect */
+        .answer.selected {
+            border: 3px solid #333;
+            transform: scale(1.05);
+        }
+        #result {
+            display: none;
+            font-size: 24px;
+            color: #333;
+        }
+        #timer {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h2>Quiz - Capitales du Monde</h2>
+    
+    <div id="timer">Temps restant : <span id="time-left">10</span> secondes</div>
+    
+    <div id="questions">
+        <!-- Question 1 -->
+        <div class="question-container active">
+            <h3>Quelle est la capitale de la France ?</h3>
+            <div class="answer-container">
+                <button class="answer red" data-correct="false">Lyon</button>
+                <button class="answer blue" data-correct="true">Paris</button>
+                <button class="answer green" data-correct="false">Marseille</button>
+                <button class="answer yellow" data-correct="false">Bordeaux</button>
+            </div>
+        </div>
+    
+        <!-- Question 2 -->
+        <div class="question-container">
+            <h3>Quelle est la capitale du Japon ?</h3>
+            <div class="answer-container">
+                <button class="answer red" data-correct="false">Kyoto</button>
+                <button class="answer blue" data-correct="true">Tokyo</button>
+                <button class="answer green" data-correct="false">Osaka</button>
+                <button class="answer yellow" data-correct="false">Nagoya</button>
+            </div>
+        </div>
+    
+        <!-- Question 3 -->
+        <div class="question-container">
+            <h3>Quelle est la capitale de l'Australie ?</h3>
+            <div class="answer-container">
+                <button class="answer red" data-correct="false">Sydney</button>
+                <button class="answer blue" data-correct="false">Melbourne</button>
+                <button class="answer green" data-correct="true">Canberra</button>
+                <button class="answer yellow" data-correct="false">Perth</button>
+            </div>
+        </div>
+    
+        <!-- Question 4 -->
+        <div class="question-container">
+            <h3>Quelle est la capitale de l'Italie ?</h3>
+            <div class="answer-container">
+                <button class="answer red" data-correct="true">Rome</button>
+                <button class="answer blue" data-correct="false">Milan</button>
+                <button class="answer green" data-correct="false">Florence</button>
+                <button class="answer yellow" data-correct="false">Venise</button>
+            </div>
+        </div>
+    
+        <!-- Question 5 -->
+        <div class="question-container">
+            <h3>Quelle est la capitale du Canada ?</h3>
+            <div class="answer-container">
+                <button class="answer red" data-correct="false">Toronto</button>
+                <button class="answer blue" data-correct="false">Vancouver</button>
+                <button class="answer green" data-correct="false">Montréal</button>
+                <button class="answer yellow" data-correct="true">Ottawa</button>
+            </div>
+        </div>
+    
+        <!-- Question 6 -->
+        <div class="question-container">
+            <h3>Quelle est la capitale du Brésil ?</h3>
+            <div class="answer-container">
+                <button class="answer red" data-correct="true">Brasília</button>
+                <button class="answer blue" data-correct="false">Rio de Janeiro</button>
+                <button class="answer green" data-correct="false">São Paulo</button>
+                <button class="answer yellow" data-correct="false">Salvador</button>
+            </div>
+        </div>
+    
+        <!-- Question 7 -->
+        <div class="question-container">
+            <h3>Quelle est la capitale de la Russie ?</h3>
+            <div class="answer-container">
+                <button class="answer red" data-correct="false">Saint-Pétersbourg</button>
+                <button class="answer blue" data-correct="false">Novossibirsk</button>
+                <button class="answer green" data-correct="true">Moscou</button>
+                <button class="answer yellow" data-correct="false">Kazan</button>
+            </div>
+        </div>
+    
+        <!-- Question 8 -->
+        <div class="question-container">
+            <h3>Quelle est la capitale de l'Inde ?</h3>
+            <div class="answer-container">
+                <button class="answer red" data-correct="false">Mumbai</button>
+                <button class="answer blue" data-correct="false">Bangalore</button>
+                <button class="answer green" data-correct="true">New Delhi</button>
+                <button class="answer yellow" data-correct="false">Chennai</button>
+            </div>
+        </div>
+    
+        <!-- Question 9 -->
+        <div class="question-container">
+            <h3>Quelle est la capitale de l'Allemagne ?</h3>
+            <div class="answer-container">
+                <button class="answer red" data-correct="false">Munich</button>
+                <button class="answer blue" data-correct="true">Berlin</button>
+                <button class="answer green" data-correct="false">Francfort</button>
+                <button class="answer yellow" data-correct="false">Hambourg</button>
+            </div>
+        </div>
+    
+        <!-- Question 10 -->
+        <div class="question-container">
+            <h3>Quelle est la capitale de l'Afrique du Sud ?</h3>
+            <div class="answer-container">
+                <button class="answer red" data-correct="true">Pretoria</button>
+                <button class="answer blue" data-correct="false">Johannesburg</button>
+                <button class="answer green" data-correct="false">Le Cap</button>
+                <button class="answer yellow" data-correct="false">Durban</button>
+            </div>
+        </div>
+    </div>
+
+        <!-- Ajoutez d'autres questions comme dans votre exemple -->
+        
+        <!-- Résultat -->
+        <div id="result">
+            <h2>Résultat du Quiz</h2>
+            <p>Votre score est de : <span id="score"></span>/10</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentQuestion = 0;
+    let score = 0;
+    const questions = document.querySelectorAll('.question-container');
+    const totalQuestions = questions.length;
+    let timeLeft = 10;
+    let timer;
+
+    function startTimer() {
+        timeLeft = 10;
+        document.getElementById('time-left').textContent = timeLeft;
+        
+        timer = setInterval(() => {
+            timeLeft--;
+            document.getElementById('time-left').textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                highlightCorrectAnswer();
+            }
+        }, 1000);
+    }
+
+    function highlightCorrectAnswer() {
+        const currentAnswers = questions[currentQuestion].querySelectorAll('.answer');
+        currentAnswers.forEach(answer => {
+            if (answer.getAttribute('data-correct') === "true") {
+                answer.classList.add('correct'); // Ajoute la couleur verte
+            } else {
+                answer.classList.add('incorrect'); // Ajoute la couleur rouge
+            }
+        });
+
+        setTimeout(() => goToNextQuestion(), 2000); // Passe à la question suivante après 2 secondes
+    }
+
+    document.querySelectorAll('.answer').forEach(button => {
+        button.addEventListener('click', () => {
+            const alreadySelected = button.parentNode.querySelector('.selected');
+            
+            if (!alreadySelected) {
+                button.classList.add('selected');
+                
+                if (button.getAttribute('data-correct') === "true") {
+                    score++;
+                }
+                
+                clearInterval(timer); // Arrête le timer quand une réponse est sélectionnée
+                setTimeout(highlightCorrectAnswer, 3000); // Attend 5 secondes avant d'afficher le feedback
+            }
+        });
+    });
+
+    function goToNextQuestion() {
+        questions[currentQuestion].classList.remove('active');
+        currentQuestion++;
+
+        if (currentQuestion < totalQuestions) {
+            questions[currentQuestion].classList.add('active');
+            startTimer();
+        } else {
+            displayResult();
+        }
+    }
+
+    function displayResult() {
+        document.getElementById('questions').style.display = 'none';
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('score').textContent = score;
+    }
+
+    startTimer(); // Lance le timer dès que le quiz démarre
+</script>
+
+</body>
+</html>
